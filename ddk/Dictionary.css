@@ -1,0 +1,156 @@
+@charset "UTF-8";
+@namespace d url(http://www.apple.com/DTDs/DictionaryService-1.0.rng);
+
+.outer-container {
+    font-family: system-ui, Helvetica Neue, Helvetica, sans-serif;
+}
+
+a:not(:hover) {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+h2 {
+    font-size: 1.3em;
+}
+h3 {
+    font-size: 1.2em;
+}
+p {
+    line-height: 1.4;
+}
+dt {
+    font-weight: bold;
+    margin-bottom: 0.1em;
+}
+
+.roundy {
+    border-radius: 0.5em;
+}
+small {
+    font-size: smaller;
+}
+
+.explain {
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+.pokedex-id {
+    float: right;
+    font-size: 1.3em;
+    margin-left: 1em;
+}
+.pokemon-name {
+    margin-bottom: 0;
+}
+.pokemon-categories {
+    margin: 0.5em 0;
+    padding: 0;
+    list-style: none;
+}
+.pokemon-categories li {
+    display: inline-block;
+}
+.pokemon-categories li + li::before {
+    content: ', ';
+}
+
+.pokemon-images {
+    border: 1px solid;
+    border-radius: 0.5em;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+.pokemon-images li + li {
+    margin-top: 1em;
+}
+.pokemon-images-flex > ul {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.pokemon-image {
+    margin: 1em;
+}
+.pokemon-images .image-caption {
+    font-size: smaller;
+}
+
+.top-info-box, .extra-info-box {
+    font-size: smaller;
+}
+.top-info-box {
+    float: right;
+    margin-left: 1em;
+    margin-bottom: 1em;
+}
+.extra-info-box {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-read-more {
+    margin-top: 1em;
+}
+
+.tleft, .floatleft {
+    float: left;
+    clear: left;
+    margin: 0.5em auto;
+    margin-right: 1em;
+}
+.tright, .floatright {
+    float: right;
+    clear: right;
+    margin: 0.5em auto;
+    margin-left: 1em;
+}
+
+.tleft, .tright {
+    max-width: 60%;
+}
+
+.tleft .thumbinner,
+.tright .thumbinner,
+.tleft .thumbinner img,
+.tright .thumbinner img {
+    max-width: 100%;
+}
+
+.thumbinner, .gallerybox {
+    border: 1px solid #0007;
+    border-radius: 0.5em;
+    background: #0001;
+    font-size: smaller;
+    box-sizing: border-box;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+}
+.thumbinner .thumbcaption,
+.gallerybox .gallerytext {
+    text-align: left;
+    padding: 0.5em;
+}
+
+.gallery {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 0.5em;
+}
+
+@media (prefers-color-scheme: dark) .thumbinner {
+    border-color: #fff5;
+    background: #fff1;
+}
+

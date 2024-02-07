@@ -1,0 +1,18 @@
+[package]
+name = "pokedex-dictgen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+clap = { version = "4.4", features = ["derive"] }
+core-foundation = "0.9"
+core-graphics = "0.23"
+foreign-types = "0.5"
+html5ever = "0.26"
+image = "0.24"
+kuchikiki = "0.8"
+rayon = "1.8"
+reqwest = { version = "0.11", features = ["blocking"] }
+url = "2.5"
+urlencoding = "2.1"
