@@ -15,6 +15,6 @@
 	<key>DCSDictionaryManufacturerName</key>
 	<string>cloudwithlightning.net</string>
 	<key>DCSDictionaryFrontMatterReferenceID</key>
-	<string>front_back_matter</string>
+	<string>front-matter</string>
 </dict>
 </plist>

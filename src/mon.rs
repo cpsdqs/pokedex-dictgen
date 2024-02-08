@@ -13,8 +13,10 @@ const FIRST_EXTRA_INFO_BOX: &str = "Gender ratio";
 
 #[derive(Debug)]
 pub struct MonEntry {
+    /// Page URL
     pub url: String,
-    pub info_box_style: BTreeMap<String, String>,
+
+    // general information
     pub dex_id: DexId,
     pub name: String,
     pub categories_html: Vec<String>,
@@ -22,10 +24,23 @@ pub struct MonEntry {
     pub name_jp_html: String,
     pub name_jp_translit_html: String,
     pub images: Vec<MonImage>,
+
+    /// CSS for info boxes
+    pub info_box_style: BTreeMap<String, String>,
+    /// Info boxes shown above the summary
     pub top_info_boxes_html: Vec<String>,
+    /// Info boxes shown below the summary
     pub extra_info_boxes_html: Vec<String>,
+
+    /// Summary HTML contents
     pub summary_html: String,
+    /// Body HTML contents
     pub body_html: String,
+
+    /// Previous entry ID and image
+    pub prev_entry: Option<(DexId, String)>,
+    /// Next entry ID and image
+    pub next_entry: Option<(DexId, String)>,
 }
 
 #[derive(Debug)]
@@ -49,6 +64,55 @@ pub fn read_mon(
     let html = String::from_utf8(fetcher.get(url, true)?)?;
     let doc = kuchikiki::parse_html().one(html);
     let base_url = Url::parse(url).unwrap();
+
+    let Ok(header_table) = doc.select_first(".mw-parser-output table > tbody > tr:nth-child(2)")
+    else {
+        bail!("could not find header table");
+    };
+    let (prev_entry, next_entry) = {
+        let children: Vec<_> = header_table
+            .as_node()
+            .children()
+            .filter(is_element)
+            .collect();
+        if children.len() != 3 {
+            bail!("header table has incorrect number of children");
+        }
+        fn read_item(
+            fetcher: &Fetcher,
+            image_cache: &ImageCache,
+            base_url: &Url,
+            config: &Config,
+            node: &NodeRef,
+        ) -> anyhow::Result<Option<(DexId, String)>> {
+            let Ok(img) = node.select_first("img") else {
+                return Ok(None);
+            };
+            let src = get_highest_quality_src(img.as_node(), base_url, config.hq_pokemon_images)
+                .ok_or(anyhow!("could not resolve header image source"))?;
+            let image_id = image_cache.get(fetcher, &src)?;
+
+            let text = node.text_contents();
+            let pos = 1 + text
+                .char_indices()
+                .find(|(_, c)| *c == '#')
+                .map(|(i, _)| i)
+                .ok_or(anyhow!("could not resolve dex ID in header item"))?;
+            let pos_end = pos
+                + text[pos..]
+                    .char_indices()
+                    .find(|(_, c)| !c.is_numeric())
+                    .map(|(i, _)| i)
+                    .ok_or(anyhow!("could not resolve dex ID in header item (2)"))?;
+            let id = text[pos..pos_end].parse()?;
+
+            Ok(Some((id, image_id)))
+        }
+        (
+            read_item(fetcher, image_cache, &base_url, config, &children[0])?,
+            read_item(fetcher, image_cache, &base_url, config, &children[2])?,
+        )
+    };
 
     let Ok(info_box) = doc.select_first("table.roundy") else {
         bail!("could not find info box");
@@ -338,6 +402,8 @@ pub fn read_mon(
         extra_info_boxes_html,
         summary_html,
         body_html,
+        prev_entry,
+        next_entry,
     })
 }
 

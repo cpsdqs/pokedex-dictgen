@@ -149,8 +149,62 @@ small {
     gap: 0.5em;
 }
 
-@media (prefers-color-scheme: dark) .thumbinner {
-    border-color: #fff5;
-    background: #fff1;
+.list-of-pokemon-gen > summary {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+.list-of-pokemon {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+}
+.list-of-pokemon li {
+    margin: 0;
+    background: #0001;
+    border-radius: 0.5em;
+    padding: 2px 1em;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 4em 48px 1fr;
+    gap: 1em;
+}
+.list-of-pokemon li .dex-id {
+    text-align: center;
+    font-feature-settings: 'tnum' 1;
+}
+.list-of-pokemon li img {
+    height: 48px;
+}
+.list-of-pokemon li a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
+@media (min-width: 600px) {
+    .list-of-pokemon {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (min-width: 900px) {
+    .list-of-pokemon {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+@media (min-width: 1200px) {
+    .list-of-pokemon {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .thumbinner {
+        border-color: #fff5;
+        background: #fff1;
+    }
+    .list-of-pokemon li {
+        background: #fff1;
+    }
+}

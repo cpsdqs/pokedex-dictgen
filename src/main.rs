@@ -59,7 +59,11 @@ fn main() {
         eprintln!("{e:#}");
         std::process::exit(1);
     });
-    eprintln!("got {} entries", index.pokemon_pages.len());
+    eprintln!(
+        "got {} entries and {} generations",
+        index.pokemon_pages.len(),
+        index.pokemon_gens.len()
+    );
     eprintln!("loading data");
 
     let pokemon: BTreeMap<_, _> = index
@@ -76,7 +80,7 @@ fn main() {
 
     eprintln!("generating entries");
 
-    let out = generate_dictionary(&pokemon).unwrap_or_else(|e| {
+    let out = generate_dictionary(&index, &pokemon).unwrap_or_else(|e| {
         eprintln!("error generating dictionary: {e:#}");
         std::process::exit(1);
     });
