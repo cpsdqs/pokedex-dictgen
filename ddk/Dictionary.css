@@ -199,12 +199,10 @@ small {
     }
 }
 
-@media (prefers-color-scheme: dark) {
-    .thumbinner {
-        border-color: #fff5;
-        background: #fff1;
-    }
-    .list-of-pokemon li {
-        background: #fff1;
-    }
+@media (prefers-color-scheme: dark) .thumbinner {
+    border-color: #fff5;
+    background: #fff1;
+}
+@media (prefers-color-scheme: dark) .list-of-pokemon li {
+    background: #fff1;
 }
